@@ -40,6 +40,21 @@ export const loginUser = createAsyncThunk('/auth/login',
     }
 )
 
+export const logout = createAsyncThunk(
+    "/auth/logout",
+  
+    async () => {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+  
+      return response.data;
+    }
+  );
 
 const authSlice = createSlice({
     name: 'auth',
@@ -70,7 +85,7 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.user = action.payload.success ? action.payload.user : null;
-                state.isAuthenticated = action.payload.success ? true : null;
+                state.isAuthenticated = action.payload.success ? true : false;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
@@ -83,9 +98,22 @@ const authSlice = createSlice({
             .addCase(checkAuth.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.user = action.payload.success ? action.payload.user : null;
-                state.isAuthenticated = action.payload.success ? true : null;
+                state.isAuthenticated = action.payload.success ? true : false;
             })
             .addCase(checkAuth.rejected, (state, action) => {
+                state.isLoading = false;
+                state.user = null;
+                state.isAuthenticated = false
+            })
+            .addCase(logout.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(logout.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.user = null;
+                state.isAuthenticated =  false;
+            })
+            .addCase(logout.rejected, (state, action) => {
                 state.isLoading = false;
                 state.user = null;
                 state.isAuthenticated = false

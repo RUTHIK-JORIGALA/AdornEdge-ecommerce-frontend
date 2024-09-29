@@ -1,12 +1,12 @@
 
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import AuthLayout from './components/auth/AuthLayout'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 import AdminLayout from './components/admin-view/AdminLayout'
 import Dashboard from './pages/admin-view/Dashboard'
-import Products from './pages/admin-view/Products'
+import Products from './pages/admin-view/AdminProducts'
 import Orders from './pages/admin-view/Orders'
 import Features from './pages/admin-view/Features'
 import ShoppingLayout from './components/shopping-view/ShoppingLayout'
@@ -28,9 +28,10 @@ function App() {
 
   useEffect(()=>{
     dispatch(checkAuth());
-  }, [dispatch])
+  }, [isAuthenticated])
 
   if(isLoading) return <div>Loading...</div>
+  
 
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
