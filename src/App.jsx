@@ -11,7 +11,7 @@ import Orders from './pages/admin-view/Orders'
 import Features from './pages/admin-view/Features'
 import ShoppingLayout from './components/shopping-view/ShoppingLayout'
 import NotFound from './pages/NotFound'
-import Account from './pages/shopping-view/Account'
+import Account from './pages/shopping-view/ShoppingAccount'
 import Checkout from './pages/shopping-view/Checkout'
 import Listing from './pages/shopping-view/Listing'
 import Home from './pages/shopping-view/Home'
@@ -36,6 +36,7 @@ function App() {
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
      <Routes>
+      
       <Route path='/auth' element={
         <CheckAuth isAuthenticated={isAuthenticated} user={user} >
           <AuthLayout/>

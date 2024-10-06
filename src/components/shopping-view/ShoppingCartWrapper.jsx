@@ -27,7 +27,6 @@ const ShoppingCartWrapper = ({ cartItems, setopenCartSheet }) => {
       <div className="mt-8 space-y-4">
         {cartItems && cartItems.length > 0
           ? cartItems.map((item) => 
-            // console.log(item.title)
           <CartItemContent cartItem={item} key={item.title} />
         )
           : null}
