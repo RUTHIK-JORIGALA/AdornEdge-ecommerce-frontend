@@ -1,4 +1,5 @@
 import Address from '@/components/shopping-view/Address'
+import ShoppingOrders from '@/components/shopping-view/ShoppingOrders'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import React from 'react'
 
@@ -16,7 +17,7 @@ const ShoppingAccount = () => {
               <TabsTrigger value="address">Address</TabsTrigger>
             </TabsList>
             <TabsContent value="orders">
-              Shipping Orders
+              <ShoppingOrders/>
             </TabsContent>
             <TabsContent value="address">
               <Address/>
