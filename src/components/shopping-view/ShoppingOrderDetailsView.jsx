@@ -1,7 +1,7 @@
 import React from "react";
 import { Label } from "../ui/label";
 import { useSelector } from "react-redux";
-import { Badge } from "lucide-react";
+import { Badge } from "../ui/badge";
 import { Separator } from "@radix-ui/react-select";
 
 const ShoppingOrderDetailsView = ({ orderDetails }) => {

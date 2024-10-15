@@ -38,9 +38,7 @@ const Listing = () => {
     (state) => state.shopProducts
   );
 
-  
-
-  const { cartItems } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
@@ -82,12 +80,14 @@ const Listing = () => {
   };
 
   const handleAddToCart = (getCurrentProductId, getTotalStock) => {
-    let getCartItems = cartItems.items || [];
+    
+    let getCartItems = cartItems?.items || [];
 
     if (getCartItems.length) {
       const indexOfCurrentItem = getCartItems.findIndex(
         (item) => item.productId === getCurrentProductId
       );
+      
       if (indexOfCurrentItem > -1) {
         const getQuantity = getCartItems[indexOfCurrentItem].quantity;
         if (getQuantity + 1 > getTotalStock) {
@@ -115,28 +115,28 @@ const Listing = () => {
     });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setSort("price-lowtohigh");
-    setFilters(JSON.parse(sessionStorage.getItem("filters")) || {})
-  }, [categorySearchParams])
+    setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+  }, [categorySearchParams]);
 
-
-  useEffect(()=>{
-    if(filters && Object.keys(filters).length > 0){
+  useEffect(() => {
+    if (filters && Object.keys(filters).length > 0) {
       const createQueryString = createSearchParamsHelper(filters);
-      setSearchParams(new URLSearchParams(createQueryString))
+      setSearchParams(new URLSearchParams(createQueryString));
     }
-  },[filters])
+  }, [filters]);
 
+  useEffect(() => {
+    if (filters !== null && sort !== null)
+      dispatch(
+        fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
+      );
+  }, [dispatch, sort, filters]);
 
-  useEffect(()=>{
-    if(filters !== null && sort !== null)
-      dispatch(fetchAllFilteredProducts({filterParams: filters, sortParams: sort}))
-  },[dispatch, sort, filters])
-
-  useEffect(()=>{
-    if(productDetails !== null ) setOpenDetailsDialog(true)
-  }, [productDetails])
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetailsDialog(true);
+  }, [productDetails]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -161,40 +161,36 @@ const Listing = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-[200px]">
                 <DropdownMenuRadioGroup value={sort} onValueChange={handleSort}>
-                  {
-                    sortOptions.map((sortItem) => (
-                      <DropdownMenuRadioItem
+                  {sortOptions.map((sortItem) => (
+                    <DropdownMenuRadioItem
                       value={sortItem.id}
                       key={sortItem.id}
-                      >
-                        {sortItem.label}
-                      </DropdownMenuRadioItem>
-                    ))
-                  }
+                    >
+                      {sortItem.label}
+                    </DropdownMenuRadioItem>
+                  ))}
                 </DropdownMenuRadioGroup>
-                
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-          {
-            productList && productList.length > 0 ?
-            productList.map((productItem) => (
-              <ShoppingProductTile 
-              key={productItem._id}
-              handleGetproductDetails={handleGetProductDetails}
-              product={productItem}
-              handleAddToCart={handleAddToCart}
-              />
-            )): null
-          }
+          {productList && productList.length > 0
+            ? productList.map((productItem) => (
+                <ShoppingProductTile
+                  key={productItem._id}
+                  handleGetproductDetails={handleGetProductDetails}
+                  product={productItem}
+                  handleAddToCart={handleAddToCart}
+                />
+              ))
+            : null}
         </div>
       </div>
       <ProductDetailsDailog
-      open={openDetailsDialog}
-      setOpen={setOpenDetailsDialog}
-      productDetails={productDetails}
+        open={openDetailsDialog}
+        setOpen={setOpenDetailsDialog}
+        productDetails={productDetails}
       />
     </div>
   );

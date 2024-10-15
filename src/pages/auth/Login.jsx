@@ -30,12 +30,13 @@ const Login = () => {
           title: data?.payload?.message,
          
         })
-        navigate("/auth/login");
+        
       } else{
         toast({
           title: data?.payload?.message,
           variant: "destructive"
         })
+        navigate("/auth/login");
       }
     })
   }

@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { Badge } from "lucide-react";
+import { Badge } from "../ui/badge";
 import { Dialog } from "../ui/dialog";
 import { Button } from "../ui/button";
 import ShoppingOrderDetailsView from "./ShoppingOrderDetailsView";

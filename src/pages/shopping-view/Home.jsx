@@ -4,8 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { getFeatureImages } from "@/store/common-slice";
-import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/product-slice";
-import { Airplay, BabyIcon, ChevronLeftIcon, ChevronRightIcon, CloudLightning, Heater, Images, Shirt, ShirtIcon, ShoppingBasket, UmbrellaIcon, WashingMachine, WatchIcon } from "lucide-react";
+import {
+  fetchAllFilteredProducts,
+  fetchProductDetails,
+} from "@/store/shop/product-slice";
+import {
+  Airplay,
+  BabyIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CloudLightning,
+  Heater,
+  Images,
+  Shirt,
+  ShirtIcon,
+  ShoppingBasket,
+  UmbrellaIcon,
+  WashingMachine,
+  WatchIcon,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +45,6 @@ const brandsWithIcon = [
 ];
 
 const Home = () => {
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
@@ -51,11 +67,11 @@ const Home = () => {
 
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
     navigate(`/shop/listing`);
-  }
+  };
 
-  const handleGetProductDetails = (getCurrentProductId) => {
+  const handleGetproductDetails = (getCurrentProductId) => {
     dispatch(fetchProductDetails(getCurrentProductId));
-  }
+  };
 
   const handleAddtoCart = (getCurrentProductId) => {
     dispatch(
@@ -72,7 +88,7 @@ const Home = () => {
         });
       }
     });
-  }
+  };
 
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
@@ -81,7 +97,7 @@ const Home = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
-    }, 15000);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [featureImageList]);
@@ -95,15 +111,13 @@ const Home = () => {
     );
   }, [dispatch]);
 
-
   useEffect(() => {
     dispatch(getFeatureImages());
   }, [dispatch]);
 
-
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="relative w-full h-[600px] overflow-hidden">
+      <div className="relative w-full h-[80vh] overflow-hidden">
         {featureImageList && featureImageList.length > 0
           ? featureImageList.map((slide, index) => (
               <img
@@ -149,7 +163,6 @@ const Home = () => {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {categoriesWithIcon.map((categoryItem) => (
-              
               <Card
                 key={categoryItem.id}
                 onClick={() =>
@@ -173,7 +186,7 @@ const Home = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {brandsWithIcon.map((brandItem) => (
               <Card
-              key={brandItem.id}
+                key={brandItem.id}
                 onClick={() => handleNavigateToListingPage(brandItem, "brand")}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
@@ -193,15 +206,18 @@ const Home = () => {
             Feature Products
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {/* Displaying first 12 products in the Feature Products */}
             {productList && productList.length > 0
-              ? productList.map((productItem) => (
-                  <ShoppingProductTile
-                  key={productItem._id}
-                    handleGetProductDetails={handleGetProductDetails}
-                    product={productItem}
-                    handleAddtoCart={handleAddtoCart}
-                  />
-                ))
+              ? productList
+                  .slice(0, 12)
+                  .map((productItem) => (
+                    <ShoppingProductTile
+                      key={productItem._id}
+                      handleGetProductDetails={handleGetproductDetails}
+                      product={productItem}
+                      handleAddtoCart={handleAddtoCart}
+                    />
+                  ))
               : null}
           </div>
         </div>

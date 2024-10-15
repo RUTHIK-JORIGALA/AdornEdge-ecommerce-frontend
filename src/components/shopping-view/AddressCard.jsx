@@ -17,9 +17,9 @@ const AddressCard = ({
           ? () => setCurrentSelectedAddress(addressInfo)
           : null
       }
-      className={`cursor-pointer border-red-700 ${
+      className={`cursor-pointer9 ${
         selectedId?._id === addressInfo?._id
-          ? "border-red-900 border-[4px]"
+          ? "border-black border-[4px]"
           : "border-black"
       }`}
     >
